@@ -1,0 +1,43 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System.Linq;
+
+namespace Software.Controllers
+{
+    [ApiController]
+    [Route("[controller]")]
+    public class SoftwareController : ControllerBase
+    {
+        private readonly ILogger<SoftwareController> _logger;
+
+        private static readonly int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+        public SoftwareController(ILogger<SoftwareController> logger)
+        {
+            _logger = logger;
+        }
+
+        [HttpGet]
+        public IActionResult GetSoftware()
+        {
+            _logger.LogInformation("Returning list of software numbers.");
+
+            return Ok(new { SoftwareNumbers = numbers });
+        }
+
+        [HttpPost]
+        public IActionResult PostNumbers([FromBody] int[] inputNumbers)
+        {
+            if (inputNumbers == null || inputNumbers.Length == 0)
+            {
+                return BadRequest("No numbers provided.");
+            }
+
+            int sum = inputNumbers.Sum();
+
+            _logger.LogInformation("Received numbers: {Numbers}. Calculated sum: {Sum}", string.Join(",", inputNumbers), sum);
+
+            return Ok(new { sum });
+        }
+    }
+}
