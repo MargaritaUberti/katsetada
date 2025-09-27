@@ -1,0 +1,38 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+namespace calculator.Controllers
+{
+[ApiController]
+[Route("[controller]")]
+public class CalculatorController : Controller
+{
+private readonly ILogger<CalculatorController> _logger;
+
+public CalculatorController(ILogger<CalculatorController> logger)
+{
+_logger = logger;
+}
+
+[HttpGet]
+public IActionResult GetNumbers()
+{
+int number1 = 5;
+int number2 = 10;
+int sum = number1 + number2;
+
+_logger.LogInformation("Adding numbers: {Number1} + {Number2} = {Sum}", number1, number2, sum);
+
+return Ok(new { number1, number2, sum });
+}
+
+[HttpGet("AddNumbers")]
+public IActionResult AddNumbers([FromQuery] int num1, [FromQuery] int num2)
+{
+int sum = num1 + num2;
+
+_logger.LogInformation("Adding numbers from query: {Num1} + {Num2} = {Sum}", num1, num2, sum);
+
+return Ok(new { num1, num2, result = sum });
+}
+}
+}
