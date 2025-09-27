@@ -33,6 +33,6 @@ int sum = num1 + num2;
 _logger.LogInformation("Adding numbers from query: {Num1} + {Num2} = {Sum}", num1, num2, sum);
 
 return Ok(new { num1, num2, result = sum });
-}
-}
+    }
+  }
 }
